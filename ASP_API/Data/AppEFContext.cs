@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ASP_API.Data.Entities;
 using ASP_API.Data.Entities.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ASP_API.Data
 {
@@ -13,7 +14,7 @@ namespace ASP_API.Data
         public AppEFContext(DbContextOptions<AppEFContext> options)
         : base(options)
         {
-
+          
         }
         public DbSet<CategoryEntity> Categories { get; set; }
 

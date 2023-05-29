@@ -57,6 +57,7 @@ namespace ASP_API.Controllers
                 Description = model.Description,
                 Image = imageName,
                 Priority = model.Priority,
+                Status = true,
                 ParentId = model.ParentId == 0 ? null : model.ParentId,
             };
             await _appEFContext.AddAsync(category);

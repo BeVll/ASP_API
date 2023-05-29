@@ -17,7 +17,7 @@ namespace ASP_API.Data.Entities
         public string Image { get; set; }
         [StringLength(4000)]
         public string Description { get; set; }
-
+        public bool Status { get; set; }
         [ForeignKey("Parent")]
         public int? ParentId { get; set; }
         public virtual CategoryEntity Parent { get; set; }
