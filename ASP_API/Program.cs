@@ -3,11 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using ASP_API.Data;
 using ASP_API.Data.Entities.Identity;
+using ASP_API.Data.Entities.Identity;
+using ASP_API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppEFContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("MyConnectionDB")));
-// Add services to the container.
+
 builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
 {
     options.Stores.MaxLengthForKeys = 128;
@@ -26,21 +29,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
-
 var app = builder.Build();
 
 app.UseCors(conf =>
     conf.AllowAnyHeader()
         .AllowAnyMethod()
         .AllowAnyOrigin());
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -57,10 +51,11 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/images"
 });
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.SeedData();
+
 app.Run();
+

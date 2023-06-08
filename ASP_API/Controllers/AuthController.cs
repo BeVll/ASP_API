@@ -1,8 +1,10 @@
-﻿using ASP_API.Constants;
-using ASP_API.Data.Entities.Identity;
-using ASP_API.Models.Auth;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ASP_API;
+using ASP_API.Data.Entities.Identity;
+using ASP_API.Models;
+using ASP_API.Models.Auth;
 
 namespace ASP_API.Controllers
 {
@@ -35,7 +37,7 @@ namespace ASP_API.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Image = imageName,
+                Image=imageName,
                 UserName = model.Email
             };
             var result = await _userManager.CreateAsync(user, model.Password);

@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Drawing;
 using ASP_API.Data;
 using ASP_API.Data.Entities;
+using ASP_API.Helpers;
 using ASP_API.Models;
 
 namespace ASP_API.Controllers
@@ -14,9 +15,11 @@ namespace ASP_API.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly AppEFContext _appEFContext;
-        public CategoriesController(AppEFContext appEFContext)
+        private readonly IConfiguration _configuration;
+        public CategoriesController(AppEFContext appEFContext, IConfiguration configuration)
         {
             _appEFContext = appEFContext;
+            _configuration = configuration;
         }
 
         [HttpGet("list")]
@@ -28,8 +31,10 @@ namespace ASP_API.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
-                    Image = x.Image,
-                    ParentId = x.ParentId
+                    Image= x.Image,
+                    ParentId = x.ParentId,
+                    ParentName=x.Parent.Name,
+                    Status = x.Status,
                 })
                 .ToListAsync();
             return Ok(result);
@@ -39,15 +44,27 @@ namespace ASP_API.Controllers
         public async Task<IActionResult> Create([FromForm] CategoryCreateViewModel model)
         {
             String imageName = string.Empty;
-            if (model.Image != null)
+            if(model.Image != null)
             {
                 var fileExp = Path.GetExtension(model.Image.FileName);
                 var dirSave = Path.Combine(Directory.GetCurrentDirectory(), "images");
-                imageName = Path.GetRandomFileName() + fileExp;
+                imageName = Path.GetRandomFileName()+fileExp;
                 using (var steam = System.IO.File.Create(Path.Combine(dirSave, imageName)))
                 {
                     await model.Image.CopyToAsync(steam);
                 }
+                //using(var ms = new MemoryStream())
+                //{
+                //    await model.Image.CopyToAsync(ms);
+                //    var bmp = new Bitmap(Image.FromStream(ms));
+                //    string []sizes = ((string)_configuration.GetValue<string>("ImageSizes")).Split(" ");
+                //    foreach(var s in sizes)
+                //    {
+                //        int size = Convert.ToInt32(s);
+                //        var saveImage = ImageWorker.CompressImage(bmp, size, size, false);
+                //        saveImage.Save(Path.Combine(dirSave, s+"_"+imageName));
+                //    }
+                //}
             }
 
             CategoryEntity category = new CategoryEntity
@@ -57,8 +74,8 @@ namespace ASP_API.Controllers
                 Description = model.Description,
                 Image = imageName,
                 Priority = model.Priority,
-                Status = true,
                 ParentId = model.ParentId == 0 ? null : model.ParentId,
+                Status = true
             };
             await _appEFContext.AddAsync(category);
             await _appEFContext.SaveChangesAsync();

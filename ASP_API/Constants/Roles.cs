@@ -1,4 +1,4 @@
-﻿namespace ASP_API.Constants
+﻿namespace ASP_API
 {
     public static class Roles
     {

@@ -1,9 +1,8 @@
-﻿using ASP_API.Constants;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ASP_API;
 using ASP_API.Data.Entities;
 using ASP_API.Data.Entities.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace ASP_API.Data
 {
@@ -11,7 +10,7 @@ namespace ASP_API.Data
     {
         public static void SeedData(this IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using(var scope=app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var service = scope.ServiceProvider;
                 var context = service.GetRequiredService<AppEFContext>();
@@ -19,7 +18,7 @@ namespace ASP_API.Data
                 var roleNamager = service.GetRequiredService<RoleManager<RoleEntity>>();
                 context.Database.Migrate(); //автоматично запускає міграції на БД
 
-                if (!context.Categories.Any())
+                if(!context.Categories.Any())
                 {
                     CategoryEntity categoryEntity = new CategoryEntity()
                     {
@@ -32,9 +31,9 @@ namespace ASP_API.Data
                     context.Categories.Add(categoryEntity);
                     context.SaveChanges();
                 }
-                if (!context.Roles.Any())
+                if(!context.Roles.Any())
                 {
-                    foreach (string name in Roles.All)
+                    foreach(string name in Roles.All)
                     {
                         var role = new RoleEntity
                         {
@@ -43,7 +42,7 @@ namespace ASP_API.Data
                         var result = roleNamager.CreateAsync(role).Result;
                     }
                 }
-                if (!context.Users.Any())
+                if(!context.Users.Any())
                 {
                     var user = new UserEntity()
                     {
@@ -52,8 +51,8 @@ namespace ASP_API.Data
                         Email = "admin@gmail.com",
                         UserName = "admin@gmail.com"
                     };
-                    var result = userNamager.CreateAsync(user, "123456").Result;
-                    if (result.Succeeded)
+                    var result = userNamager.CreateAsync(user,"123456").Result;
+                    if(result.Succeeded)
                     {
                         result = userNamager.AddToRoleAsync(user, Roles.Admin).Result;
                     }
