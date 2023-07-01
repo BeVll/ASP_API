@@ -10,6 +10,7 @@ using System.Text;
 using ASP_API.Abstract;
 using ASP_API.Services;
 using System.Reflection;
+using ASP_API.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +77,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+builder.Services.AddAutoMapper(typeof(AppMapProfile));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -34,7 +34,7 @@ namespace ASP_API.Services
 
             var jwt = new JwtSecurityToken(
                 signingCredentials: signinCredentials,
-                expires: DateTime.Now.AddDays(10),
+                expires: DateTime.Now.AddHours(1),
                 claims: claims
            );
             return new JwtSecurityTokenHandler().WriteToken(jwt);
