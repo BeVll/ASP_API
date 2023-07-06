@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ASP_API;
 using ASP_API.Data.Entities.Identity;
@@ -8,6 +7,7 @@ using ASP_API.Models.Auth;
 using ASP_API.Abstract;
 using System.Drawing;
 using ASP_API.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace ASP_API.Controllers
 {
@@ -62,7 +62,7 @@ namespace ASP_API.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                result = await _userManager.AddToRoleAsync(user, Roles.Admin);
+                result = await _userManager.AddToRoleAsync(user, Roles.User);
                 return Ok();
             }
             return BadRequest();

@@ -32,7 +32,7 @@ namespace ASP_API.Controllers
             var result = await _appEFContext.Categories
                  .Select(x => _mapper.Map<CategoryItemViewModel>(x))
                  .ToListAsync();
-
+          
             return Ok(result);
         }
         [HttpGet("get/{id}")]
