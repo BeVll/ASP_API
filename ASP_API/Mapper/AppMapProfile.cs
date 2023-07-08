@@ -28,7 +28,8 @@ namespace ASP_API.Mapper
 
             CreateMap<UserEntity, UserItemViewModel>();
             CreateMap<UserEntity, EditUserViewModel>();
-
+            CreateMap<ProductEntity, ProductItemViewModel>();
+            CreateMap<ImageProduct, ProductImageItemViewModel>();
         }
     }
 }

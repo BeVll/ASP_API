@@ -12,9 +12,13 @@ namespace ASP_API.Data.Entities
         [Required, StringLength(1000)]
         public string Path { get; set; }
         public bool IsMain { get; set; }
-       
+        public int Priority { get; set; }
+        public bool IsDelete { get; set; }
+        public DateTime DateCreated { get; set; }
+
         [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public virtual ProductEntity Product { get; set; }
+
     }
 }

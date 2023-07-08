@@ -18,6 +18,7 @@ namespace ASP_API.Data
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ImageProduct> ProductImages { get; set; }
+        public DbSet<BasketEntity> Baskets { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -34,6 +35,10 @@ namespace ASP_API.Data
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(u => u.UserId)
                     .IsRequired();
+            });
+            builder.Entity<BasketEntity>(ur =>
+            {
+                ur.HasKey(ur => new { ur.UserId, ur.ProductId });
             });
         }
     }
