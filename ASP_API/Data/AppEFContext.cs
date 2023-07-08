@@ -19,6 +19,10 @@ namespace ASP_API.Data
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ImageProduct> ProductImages { get; set; }
         public DbSet<BasketEntity> Baskets { get; set; }
+        public DbSet<DeliveryTypeEntity> DeliveryTypes { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<ProductOrderEntity> OrderProducts { get; set; }
+        public DbSet<DeliveryInfoEntity> DeliveriesInfo { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

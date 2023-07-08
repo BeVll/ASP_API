@@ -31,7 +31,17 @@ namespace ASP_API.Data
                     context.Categories.Add(categoryEntity);
                     context.SaveChanges();
                 }
-                if(!context.Roles.Any())
+                if (!context.DeliveryTypes.Any())
+                {
+                    DeliveryTypeEntity deliveryTypeEntity = new DeliveryTypeEntity()
+                    {
+                        Title = "Самомивіз Нова Пошта",
+                        Description = "Сьогодні тут - завтра там"
+                    };
+                    context.DeliveryTypes.Add(deliveryTypeEntity);
+                    context.SaveChanges();
+                }
+                if (!context.Roles.Any())
                 {
                     foreach(string name in Roles.All)
                     {

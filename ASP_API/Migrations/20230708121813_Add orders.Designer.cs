@@ -3,6 +3,7 @@ using System;
 using ASP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_API.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    partial class AppEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230708121813_Add orders")]
+    partial class Addorders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,8 +287,8 @@ namespace ASP_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<double>("Cost")
-                        .HasColumnType("double");
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DataCreated")
                         .HasColumnType("datetime(6)");
@@ -293,8 +296,8 @@ namespace ASP_API.Migrations
                     b.Property<int>("DeliveryInfoId")
                         .HasColumnType("int");
 
-                    b.Property<double?>("DiscountCost")
-                        .HasColumnType("double");
+                    b.Property<decimal>("DiscountCost")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Payment_Status")
                         .HasColumnType("tinyint(1)");
@@ -372,16 +375,10 @@ namespace ASP_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<double>("Cost")
-                        .HasColumnType("double");
-
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

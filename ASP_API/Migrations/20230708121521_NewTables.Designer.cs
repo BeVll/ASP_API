@@ -3,6 +3,7 @@ using System;
 using ASP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_API.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    partial class AppEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230708121521_NewTables")]
+    partial class NewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,54 +79,6 @@ namespace ASP_API.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("tblCategories");
-                });
-
-            modelBuilder.Entity("ASP_API.Data.Entities.DeliveryInfoEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("City")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("DeliveryTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NumberOfHouse")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Oblast")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Rayon")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeliveryTypeId");
-
-                    b.ToTable("tblDeliveriesInfo");
-                });
-
-            modelBuilder.Entity("ASP_API.Data.Entities.DeliveryTypeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblDeliveryTypes");
                 });
 
             modelBuilder.Entity("ASP_API.Data.Entities.Identity.RoleEntity", b =>
@@ -278,51 +233,6 @@ namespace ASP_API.Migrations
                     b.ToTable("tblProductImages");
                 });
 
-            modelBuilder.Entity("ASP_API.Data.Entities.OrderEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("double");
-
-                    b.Property<DateTime>("DataCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("DeliveryInfoId")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("DiscountCost")
-                        .HasColumnType("double");
-
-                    b.Property<bool>("Payment_Status")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Payment_Type")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Recipient_Full_Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Recipient_Phone")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeliveryInfoId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("tblOrders");
-                });
-
             modelBuilder.Entity("ASP_API.Data.Entities.ProductEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -364,33 +274,6 @@ namespace ASP_API.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("tblProducts");
-                });
-
-            modelBuilder.Entity("ASP_API.Data.Entities.ProductOrderEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("double");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -509,17 +392,6 @@ namespace ASP_API.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("ASP_API.Data.Entities.DeliveryInfoEntity", b =>
-                {
-                    b.HasOne("ASP_API.Data.Entities.DeliveryTypeEntity", "Delivery")
-                        .WithMany()
-                        .HasForeignKey("DeliveryTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Delivery");
-                });
-
             modelBuilder.Entity("ASP_API.Data.Entities.Identity.UserRoleEntity", b =>
                 {
                     b.HasOne("ASP_API.Data.Entities.Identity.RoleEntity", "Role")
@@ -548,25 +420,6 @@ namespace ASP_API.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ASP_API.Data.Entities.OrderEntity", b =>
-                {
-                    b.HasOne("ASP_API.Data.Entities.DeliveryInfoEntity", "DeliveryInfo")
-                        .WithMany()
-                        .HasForeignKey("DeliveryInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ASP_API.Data.Entities.Identity.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeliveryInfo");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ASP_API.Data.Entities.ProductEntity", b =>
                 {
                     b.HasOne("ASP_API.Data.Entities.CategoryEntity", "Category")
@@ -576,23 +429,6 @@ namespace ASP_API.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("ASP_API.Data.Entities.ProductOrderEntity", b =>
-                {
-                    b.HasOne("ASP_API.Data.Entities.OrderEntity", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("ASP_API.Data.Entities.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -644,11 +480,6 @@ namespace ASP_API.Migrations
             modelBuilder.Entity("ASP_API.Data.Entities.Identity.UserEntity", b =>
                 {
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("ASP_API.Data.Entities.OrderEntity", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("ASP_API.Data.Entities.ProductEntity", b =>
