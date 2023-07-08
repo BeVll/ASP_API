@@ -94,7 +94,7 @@ namespace ASP_API.Controllers
                     Name = model.Name,
                     Description = model.Description,
                     Price = model.Price,
-                    DiscountPrice = model.DiscountPrice,
+                    DiscountPrice = model.DiscountPrice == 0 ? null : model.DiscountPrice,
                     DateCreated = DateTime.UtcNow,
                     CategoryId = model.CategoryId,
                     Priority = model.Priority,
@@ -109,7 +109,30 @@ namespace ASP_API.Controllers
                     image.ProductId = product.Id;
                 }
                 _appContext.SaveChanges();
-                return Ok(product);
+
+
+                var result = await _appContext.Products
+                .Include(x => x.Category)
+                .Include(x => x.ProductImages)
+                .Select(x => new ProductItemViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    DiscountPrice = x.DiscountPrice,
+                    Status = x.Status,
+                    CategoryId = x.CategoryId,
+                    CategoryName = x.Category.Name,
+                    Images =
+                        x.ProductImages
+                        .Select(x =>
+                            new ProductImageItemViewModel { Id = x.Id, Path = x.Path })
+                        .ToList(),
+                })
+                .Where(s => s.Id == product.Id)
+                .FirstOrDefaultAsync();
+                return Ok(result);
             }
             return BadRequest(404);
         }
